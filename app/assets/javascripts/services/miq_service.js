@@ -68,6 +68,7 @@ ManageIQ.angular.app.service('miqService', ['$timeout', '$document', '$q', '$log
   }
 
   this.saveable = function(form) {
+    console.log("savable: valid =", form.$valid, "dirty =", form.$dirty);
     return form.$valid && form.$dirty;
   };
 
@@ -124,6 +125,7 @@ ManageIQ.angular.app.service('miqService', ['$timeout', '$document', '$q', '$log
 
     return serializedObj;
   };
+  
   this.handleFailure = function(e) {
     miqSparkleOff();
     if (e.message) {

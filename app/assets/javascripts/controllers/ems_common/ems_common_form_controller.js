@@ -172,6 +172,7 @@ ManageIQ.angular.app.controller('emsCommonFormController', ['$http', '$scope', '
       $scope.populatePostValidationModel();
 
       miqService.sparkleOff();
+      console.log("getEmsFormIdDataComplete", $scope.emsCommonModel);
     }
 
     function getNewEmsFormDataComplete(response) {
@@ -202,7 +203,9 @@ ManageIQ.angular.app.controller('emsCommonFormController', ['$http', '$scope', '
 
       $scope.afterGet  = true;
       $scope.modelCopy = angular.copy( $scope.emsCommonModel );
+      console.log("getNewEmsFormDataComplete", $scope.emsCommonModel);
     }
+    console.log("init", $scope.emsCommonModel);
   };
 
   $scope.changeAuthTab = function(id) {
@@ -214,6 +217,7 @@ ManageIQ.angular.app.controller('emsCommonFormController', ['$http', '$scope', '
   };
 
   $scope.isBasicInfoValid = function() {
+    console.log("isBasicInfoValid", $scope.currentTab);
     if(($scope.currentTab == "default" && $scope.emsCommonModel.emstype != "azure") &&
       ($scope.emsCommonModel.emstype == "ec2" ||
        $scope.emsCommonModel.emstype == "openstack" && $scope.emsCommonModel.default_hostname ||
@@ -256,18 +260,21 @@ ManageIQ.angular.app.controller('emsCommonFormController', ['$http', '$scope', '
       ($scope.emsCommonModel.default_hostname != '' && $scope.emsCommonModel.default_api_port) &&
       ($scope.emsCommonModel.default_password != '' && $scope.angularForm.default_password.$valid) &&
       ($scope.emsCommonModel.default_verify != '' && $scope.angularForm.default_verify.$valid)) {
+      console.log("isBasicInfoValid =>", true);
       return true;
     } else if(($scope.currentTab == "hawkular" && $scope.emsCommonModel.ems_controller == "ems_container") &&
       ($scope.emsCommonModel.emstype) &&
       ($scope.emsCommonModel.hawkular_hostname != '' && $scope.emsCommonModel.hawkular_api_port) &&
       ($scope.emsCommonModel.default_password != '' && $scope.angularForm.default_password.$valid) &&
       ($scope.emsCommonModel.default_verify != '' && $scope.angularForm.default_verify.$valid)) {
+      console.log("isBasicInfoValid =>", true);
       return true;
     } else if($scope.emsCommonModel.emstype == "gce" && $scope.emsCommonModel.project != '' &&
       ($scope.currentTab == "default" ||
       ($scope.currentTab == "service_account" && $scope.emsCommonModel.service_account != ''))) {
       return true;
     } else {
+      console.log("isBasicInfoValid =>", false);
       return false;
     }
   };
@@ -331,6 +338,7 @@ ManageIQ.angular.app.controller('emsCommonFormController', ['$http', '$scope', '
   };
 
   $scope.providerTypeChanged = function() {
+    console.log("providerTypeChanged.  previous model:", $scope.emsCommonModel);
     if ($scope.emsCommonModel.ems_controller === 'ems_container') {
       $scope.emsCommonModel.default_api_port = "8443"; // TODO: correct per-type port
       // Container types are nearly identical, no point resetting most fields on type change.
@@ -391,6 +399,7 @@ ManageIQ.angular.app.controller('emsCommonFormController', ['$http', '$scope', '
   };
 
   $scope.populatePostValidationModel = function() {
+    console.log("populatePostValidationModel");
     if ($scope.emsCommonModel.default_auth_status === true) {
       $scope.postValidationModelRegistry("default");
     }
@@ -412,6 +421,8 @@ ManageIQ.angular.app.controller('emsCommonFormController', ['$http', '$scope', '
   };
 
   $scope.postValidationModelRegistry = function(prefix) {
+    console.log("postValidationModelRegistry(" + prefix + ")");
+    console.log("emsCommonModel:", $scope.emsCommonModel);
     if (!angular.isDefined($scope.postValidationModel)) {
       $scope.postValidationModel = {default: {},
                                     amqp: {},
@@ -495,6 +506,7 @@ ManageIQ.angular.app.controller('emsCommonFormController', ['$http', '$scope', '
         hawkular_tls_ca_certs:      $scope.emsCommonModel.hawkular_tls_ca_certs,
       }
     }
+    console.log("postValidationModel:", $scope.postValidationModel);
   };
 
   $scope.validateClicked = function($event, authType, formSubmit) {
@@ -514,6 +526,7 @@ ManageIQ.angular.app.controller('emsCommonFormController', ['$http', '$scope', '
   };
 
   $scope.updateAuthStatus = function(updatedValue) {
+    console.log("updateAuthStatus(", updatedValue, ")", $scope.authType);
     $scope.angularForm[$scope.authType + '_auth_status'].$setViewValue(updatedValue);
   };
 
