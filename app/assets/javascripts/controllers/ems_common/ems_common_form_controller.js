@@ -514,7 +514,7 @@ ManageIQ.angular.app.controller('emsCommonFormController', ['$http', '$scope', '
     miqService.validateWithREST($event, authType, $scope.actionUrl, formSubmit)
       .then(function success(data) {
         $scope.$apply(function() {
-          if(data.level == "error") {
+          if(false){//data.level == "error") {
             $scope.updateAuthStatus(false);
           } else {
             $scope.updateAuthStatus(true);
